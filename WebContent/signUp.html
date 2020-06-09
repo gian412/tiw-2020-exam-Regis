@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign up</title>
+    <link rel="stylesheet" type="text/css" media="all" href="CSS/general.css" th:href="@{CSS/general.css}"/>
+</head>
+<body>
+<h1>Welcome to the sign up page</h1>
+<p>Please, enter the required information to sign up to our awesome crowdsourcing website!</p>
+<form method="post" action="CreateUser">
+    <!-- Role selector request -->
+    <p>Are you a:</p>
+    <!-- Role -->
+    <label for="role">Role:</label>
+    <input type="text" id="role" name="role" placeholder="Manager/Worker"><br>
+
+    <!-- Information input request -->
+    <p>Please, give us some information about you:</p>
+
+    <!-- Name -->
+    <label for="firstname">Name:</label>
+    <input type="text" id="firstname" name="firstname" placeholder="Enter your first name"><br>
+
+    <!-- Surname -->
+    <label for="lastname">Surname:</label>
+    <input type="text" id="lastname" name="lastname" placeholder="Enter your last name"><br>
+
+    <!-- Username -->
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" placeholder="Enter your username" th:value="${username}"><br>
+    <p th:text="${usernameErrorMessage}" class="error"></p><br th:if="${usernameErrorMessage}!=null">
+
+    <!-- Email -->
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" placeholder="Enter your email"><br>
+
+    <!-- Password -->
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" placeholder="Enter your password"><br>
+
+    <!-- Experience selector request -->
+    <p>What about your experience level?</p>
+    <label for="experience">Experience level:</label>
+    <input type="text" id="experience" name="experience" placeholder="High/medium/low"><br>
+    <input type="submit" value="Sign up">
+</form>
+<form method="get"  class="login" action="Login">
+    <p>Do you already have a profile?</p>
+    <input type="submit" value="Login">
+</form>
+</body>
+</html>
