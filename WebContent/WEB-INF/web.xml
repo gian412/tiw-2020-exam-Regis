@@ -3,4 +3,34 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+
+    <!-- Parameters for DB access -->
+    <context-param>
+        <param-name>dbUrl</param-name>
+        <param-value>jdbc:mysql://localhost:3306/money_transfer?serverTimezone=UTC</param-value>
+    </context-param>
+    <context-param>
+        <param-name>dbUser</param-name>
+        <param-value>gianluca</param-value>
+    </context-param>
+    <context-param>
+        <param-name>dbPassword</param-name>
+        <param-value>regis</param-value>
+    </context-param>
+    <context-param>
+        <param-name>dbDriver</param-name>
+        <param-value>com.mysql.cj.jdbc.Driver</param-value>
+    </context-param>
+
+    <!-- Parameter for resources -->
+    <context-param>
+        <param-name>resources.location</param-name>
+        <param-value>/var/webapps/uploads/tiw-2020-exam-Regis/resources/</param-value>
+    </context-param>
+
+    <!-- Welcome file -->
+    <welcome-file-list>
+        <welcome-file>welcome.html</welcome-file>
+    </welcome-file-list>
+
 </web-app>
