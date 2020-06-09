@@ -1,0 +1,30 @@
+.header {
+    position: relative;
+    text-align: center;
+}
+
+.cover {
+    width: 90%;
+    height: auto;
+}
+
+.heading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    background-color: #60656F;
+}
+
+.title, .subTitle {
+    color: #4F86C6;
+}
+
+#false-sign-up-button {
+    display: none;
+}
+
+#experience-radio {
+    display: none;
+}
