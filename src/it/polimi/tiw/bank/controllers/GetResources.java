@@ -1,4 +1,4 @@
-package it.polimi.tiw.crowdsourcing.controllers;
+package it.polimi.tiw.bank.controllers;
 
 import it.polimi.tiw.crowdsourcing.utils.ImageHandler;
 
@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
 
 @WebServlet("/resources/*")
 public class GetResources extends HttpServlet {
