@@ -6,46 +6,45 @@
     <link rel="stylesheet" type="text/css" media="all" href="CSS/general.css" th:href="@{CSS/general.css}"/>
 </head>
 <body>
-<h1>Welcome to the sign up page</h1>
-<p>Please, enter the required information to sign up to our awesome crowdsourcing website!</p>
-<form method="post" action="CreateUser">
+    <h1 th:text="#{welcome}">Sign up to access to our site</h1>
+    <form method="post" action="CreateUser">
 
-    <!-- Information input request -->
-    <p>Please, give us some information about you:</p>
+        <!-- Information input request -->
+        <p th:text="#{call}">Please, give us some information about you:</p>
 
-    <!-- Name -->
-    <label for="firstname">Name:</label>
-    <input type="text" id="firstname" name="firstname" placeholder="Enter your first name"><br>
+        <!-- Name -->
+        <label for="firstname" th:text="#{name}">Name:</label>
+        <input type="text" id="firstname" name="firstname" placeholder="Enter your first name" th:placeholder="#{phName}"><br>
 
-    <!-- Surname -->
-    <label for="lastname">Surname:</label>
-    <input type="text" id="lastname" name="lastname" placeholder="Enter your last name"><br>
+        <!-- Surname -->
+        <label for="lastname" th:text="#{surname}">Surname:</label>
+        <input type="text" id="lastname" name="lastname" placeholder="Enter your last name" th:placeholder="#{phSurname}"><br>
 
-    <!-- Username -->
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" placeholder="Enter your username" th:value="${username}"><br>
-    <p th:text="${usernameErrorMessage}" class="error">Username error</p><br th:if="${usernameErrorMessage}!=null">
+        <!-- Username -->
+        <label for="username" th:text="#{username}">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username" th:placeholder="#{phUsername}" th:value="${username}"><br>
+        <p th:text="${usernameErrorMessage}" class="error">Username error</p><br th:if="${usernameErrorMessage}!=null">
 
-    <!-- Email -->
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" placeholder="Enter your email"><br>
-    <p th:text="${emailErrorMessage}" class="error">Email error</p><br th:if="${emailErrorMessage}!=null">
+        <!-- Email -->
+        <label for="email" th:placeholder="#{email}">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" th:placeholder="#{phEmail}"><br>
+        <p th:text="${emailErrorMessage}" class="error">Email error</p><br th:if="${emailErrorMessage}!=null">
 
-    <!-- Password -->
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" placeholder="Enter your password"><br>
+        <!-- Password -->
+        <label for="password" th:text="#{password}">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" th:placeholder="#{phPassword}"><br>
 
-    <!-- Password verification -->
-    <label for="password-2">Password:</label>
-    <input type="password" id="password-2" name="password-2" placeholder="Enter your password again"><br>
-    <p th:text="${passwordErrorMessage}" class="error">Password error</p><br th:if="${passwordErrorMessage}!=null">
+        <!-- Password verification -->
+        <label for="password-2" th:text="#{repeatPassword}">Repeat password:</label>
+        <input type="password" id="password-2" name="password-2" placeholder="Enter your password again" th:placeholder="#{phRepeatPassword}"><br>
+        <p th:text="${passwordErrorMessage}" class="error">Password error</p><br th:if="${passwordErrorMessage}!=null">
 
 
-    <input type="submit" value="Sign up">
-</form>
-<form method="get"  class="login" action="Login">
-    <p>Do you already have a profile?</p>
-    <input type="submit" value="Login">
-</form>
+        <input type="submit" value="Sign up" th:value="#{signUp}">
+    </form>
+    <form method="get"  class="login" action="Login">
+        <p th:text="#{alreadyProfile}">Do you already have a profile?</p>
+        <input type="submit" value="Login" th:value="#{login}">
+    </form>
 </body>
 </html>

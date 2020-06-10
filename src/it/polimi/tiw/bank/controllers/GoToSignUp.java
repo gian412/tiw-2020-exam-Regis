@@ -1,5 +1,6 @@
 package it.polimi.tiw.bank.controllers;
 
+import it.polimi.tiw.bank.utils.MultiPathMessageResolver;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -30,6 +31,7 @@ public class GoToSignUp extends HttpServlet {
         templateResolver.setTemplateMode(TemplateMode.HTML);
         this.templateEngine = new TemplateEngine();
         this.templateEngine.setTemplateResolver(templateResolver);
+        this.templateEngine.setMessageResolver(new MultiPathMessageResolver(servletContext, "i18n"));
         templateResolver.setSuffix(".html");
     }
 
