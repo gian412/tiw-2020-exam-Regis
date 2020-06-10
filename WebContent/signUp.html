@@ -9,11 +9,6 @@
 <h1>Welcome to the sign up page</h1>
 <p>Please, enter the required information to sign up to our awesome crowdsourcing website!</p>
 <form method="post" action="CreateUser">
-    <!-- Role selector request -->
-    <p>Are you a:</p>
-    <!-- Role -->
-    <label for="role">Role:</label>
-    <input type="text" id="role" name="role" placeholder="Manager/Worker"><br>
 
     <!-- Information input request -->
     <p>Please, give us some information about you:</p>
@@ -29,20 +24,23 @@
     <!-- Username -->
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" placeholder="Enter your username" th:value="${username}"><br>
-    <p th:text="${usernameErrorMessage}" class="error"></p><br th:if="${usernameErrorMessage}!=null">
+    <p th:text="${usernameErrorMessage}" class="error">Username error</p><br th:if="${usernameErrorMessage}!=null">
 
     <!-- Email -->
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" placeholder="Enter your email"><br>
+    <p th:text="${emailErrorMessage}" class="error">Email error</p><br th:if="${emailErrorMessage}!=null">
 
     <!-- Password -->
     <label for="password">Password:</label>
     <input type="password" id="password" name="password" placeholder="Enter your password"><br>
 
-    <!-- Experience selector request -->
-    <p>What about your experience level?</p>
-    <label for="experience">Experience level:</label>
-    <input type="text" id="experience" name="experience" placeholder="High/medium/low"><br>
+    <!-- Password verification -->
+    <label for="password-2">Password:</label>
+    <input type="password" id="password-2" name="password-2" placeholder="Enter your password again"><br>
+    <p th:text="${passwordErrorMessage}" class="error">Password error</p><br th:if="${passwordErrorMessage}!=null">
+
+
     <input type="submit" value="Sign up">
 </form>
 <form method="get"  class="login" action="Login">
