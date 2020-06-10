@@ -68,6 +68,7 @@ public class CreateUser extends HttpServlet {
             return;
         }
 
+        // Set error indicators
         if ( firstName==null || firstName.equals("") ) {
             fn = true;
         }
