@@ -21,10 +21,6 @@
     color: #4F86C6;
 }
 
-#false-sign-up-button {
-    display: none;
-}
-
-#experience-radio {
-    display: none;
+form {
+    display: inline-block;
 }
