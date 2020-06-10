@@ -4,6 +4,7 @@ import it.polimi.tiw.bank.beans.User;
 import it.polimi.tiw.bank.dao.AnonymousUserDAO;
 import it.polimi.tiw.bank.utils.ClientHandler;
 import it.polimi.tiw.bank.utils.Encryption;
+import it.polimi.tiw.bank.utils.MultiPathMessageResolver;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -16,7 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -40,6 +40,7 @@ public class CheckLogin extends HttpServlet {
         templateResolver.setTemplateMode(TemplateMode.HTML);
         this.templateEngine = new TemplateEngine();
         this.templateEngine.setTemplateResolver(templateResolver);
+        this.templateEngine.setMessageResolver(new MultiPathMessageResolver(servletContext, "i18n"));
         templateResolver.setSuffix(".html");
 
     }

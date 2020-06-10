@@ -42,6 +42,10 @@ div {
     color: red;
 }
 
+.error-input {
+    border-color: red;
+}
+
 /* Top menu style */
 .top-menu {
     overflow : hidden;
