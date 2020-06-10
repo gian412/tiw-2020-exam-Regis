@@ -1,113 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Welcome to your bank account</title>
     <link rel="stylesheet" type="text/css" media="all" href="CSS/general.css" />
-    <link rel="stylesheet" type="text/css" media="all" href="CSS/welcome.css" />ù
-    <link rel="stylesheet" type="text/css" media="all" href="CSS/modal.css" />
-    <script src="JS/welcome.js" charset="utf-8" defer></script>
+    <link rel="stylesheet" type="text/css" media="all" href="CSS/welcome.css" />
 </head>
 <body>
 <div class="header">
     <img class="cover" alt="Cover" src="/tiw_2020_exam_Regis/resources/cover.jpg" />
     <div class="heading">
-        <h1 class="title" >Welcome to Waste Dump Crowdsourcing</h1>
-        <h2 class="subTitle" >Work together to make World better</h2>
+        <h1 class="title" th:text="#{title}">Welcome to Bank Account</h1>
+        <h2 class="subTitle" th:text="#{subTitle}">Love to pay again</h2>
     </div>
 </div>
 
-<h3>Want to join us?</h3>
+<h3 th:text="#{call}">Want to join us?</h3>
 
-<button type="button" id="login" >Login</button>
-<button type="button" id="sign-up" >Sign up</button>
+<form method="get" action="Login">
+    <input type="submit" value="Login" th:value="#{login}">
+</form>
+<form method="get" action="SignUp">
+    <input type="submit" value="Sign up" th:value="#{signUp}">
+</form>
 
-<div id="login-modal-box" class="modal">
-    <!-- Form to show when login clicked -->
-    <form method="post" class="modal-form animate" action="CheckLogin">
-        <div class="container">
-            <p>Login to your account</p>
-            <span id="login-close" class="close" title="Close Login">&times;</span>
-        </div>
-        <div class="container">
-            <label for="username" >Username: </label>
-            <input type="text" placeholder="Enter username" id="username" name="username" required><br>
-            <label for="login-password" >Password: </label>
-            <input type="password" placeholder="Enter password" id="login-password" name="password" required><br>
-            <input type="checkbox" id="show-login-password"><label for="show-login-password" >Show password</label><br>
-            <input type="submit" value="Login" class="modal-button">
-            <p id="errorMessage" class="error"></p>
-        </div>
-    </form>
-</div>
-
-<div id="sign-up-modal-box" class="modal">
-    <form method="post" class="modal-form animate" action="CreateUser">
-
-
-        <!-- Call to sign up -->
-        <div class="container">
-            <p>Create your account:</p>
-            <span id="sign-up-close" class="close" title="Close Login">&times;</span>
-        </div>
-        <div class="container">
-
-            <!-- Role -->
-            <div id="role-radio">
-                <label>Which is your role?</label><br>
-                <input type="radio" id="manager" name="role" value="0" required>
-                <label for="manager">Manager</label><br>
-                <input type="radio" id="worker" name="role" value="1">
-                <label for="worker">Worker</label><br>
-            </div>
-
-            <!-- Information input request -->
-            <p>Please, give us some information about you:</p>
-
-            <!-- Name -->
-            <label for="first-name">First name: </label>
-            <input type="text" id="first-name"  name="firstname" placeholder="Enter your first name" ><br>
-
-            <!-- Surname -->
-            <label for="last-name">Last name: </label>
-            <input type="text" id="last-name" name="lastname" placeholder="Enter your last name"><br>
-
-            <!-- Username -->
-            <label for="user-name">Username:</label>
-            <input type="text" id="user-name" name="username" placeholder="Enter your username"><br>
-
-            <!-- Email -->
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email"><br>
-
-            <!-- Password -->
-            <label for="sign-up-password1">Password:</label>
-            <input type="password" name="password" id="sign-up-password1" placeholder="Enter your password" ><br>
-            <input type="checkbox" id="show-sign-up-password1">
-            <label for="show-sign-up-password1" >Show password</label><br>
-
-            <!-- Password again -->
-            <label for="sign-up-password2">Rewrite password:</label>
-            <input type="password" name="password" id="sign-up-password2" placeholder="Enter your password" ><br>
-            <input type="checkbox" id="show-sign-up-password2">
-            <label for="show-sign-up-password2" >Show password</label><br>
-
-            <!-- Experience -->
-            <div id="experience-radio">
-                <label>Experience level:</label><br>
-                <input type="radio" id="high" name="experience" value="0">
-                <label for="high">High</label><br>
-                <input type="radio" id="medium" name="experience" value="1">
-                <label for="medium" >Medium</label><br>
-                <input type="radio" id="low" name="experience" value="2">
-                <label for="low">Low</label><br>
-            </div>
-
-            <button type="button" id="false-sign-up-button" >Sign up</button>
-            <input type="submit" id="sign-up-button" value="Sign up">
-        </div>
-
-    </form>
-</div>
 </body>
 </html>
