@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Home</title>
+        <link rel="stylesheet" type="text/css" media="all" href="/CSS/general.css" th:href="@{CSS/general.css}"/>
+    </head>
+    <body>
+        <div class="top-menu">
+
+            <form method="get" class="logout" action="Logout">
+                <input type="submit" value="Logout" th:value="#{logout}">
+            </form>
+
+        </div>
+
+        <div class="main">
+
+            <h1 th:text="#{title}">Home page</h1>
+
+            <!-- If there is any account, show it -->
+            <table th:if="${not #lists.isEmpty(accounts)}">
+                <thead>
+                    <tr>
+                        <th th:text="#{headId}">Account ID</th>
+                        <th th:text="#{headBalance}">Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="account : ${accounts}">
+                        <td><a th:href="@{AccountStatus(id=${account.id})}" th:text="${account.id}">1111</a></td> <!-- TODO: format number -->
+                        <td th:text="${account.balance}">1000 €</td> <!-- TODO: format number and add € -->
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </body>
+</html>
