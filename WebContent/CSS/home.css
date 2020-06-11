@@ -1,0 +1,14 @@
+a {
+    background-color: #4f86c6;
+    color: #ff9fb2;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+a:hover {
+    background-color: #c49991;
+    color: #44ccff;
+}
