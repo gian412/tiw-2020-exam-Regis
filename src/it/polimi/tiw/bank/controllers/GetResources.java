@@ -59,9 +59,4 @@ public class GetResources extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.doGet(req, resp);
     }
-
-    @Override
-    public void destroy() {
-        super.destroy();
-    }
 }

@@ -51,9 +51,4 @@ public class GoToLogin extends HttpServlet {
         this.doGet(req, resp);
     }
 
-    @Override
-    public void destroy() {
-        super.destroy();
-    }
-
 }
