@@ -96,7 +96,7 @@
                 <fieldset>
                     <legend th:text="#{makeTransfer}">Make a new transfer</legend>
 
-                    <form>
+                    <form method="post" action="MakeTransfer">
 
                         <!-- Hidden originAccount -->
                         <input type="hidden" name="origin" th:value="${account.id}" required>
