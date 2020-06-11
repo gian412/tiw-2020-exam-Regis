@@ -40,4 +40,26 @@ public class UserDAO {
         return accounts;
 
     }
+
+    public Account findAccountByAccountId( int accountId) throws SQLException {
+
+        String query = "SELECT * FROM account WHERE id = ? AND owner = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, accountId);
+            preparedStatement.setInt(2, this.id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (!resultSet.isBeforeFirst()) {
+                    return null;
+                }
+                resultSet.next();
+                Account account = new Account();
+                account.setId(resultSet.getInt("id"));
+                account.setBalance(resultSet.getLong("balance"));
+                account.setOwner(resultSet.getInt("owner"));
+                return account;
+            }
+        }
+
+    }
 }
