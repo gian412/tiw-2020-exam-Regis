@@ -9,6 +9,7 @@ public class Transfer {
     private long amount;
     private int originAccount;
     private int destinationAccount;
+    private String causal;
 
     public int getId() {
         return id;
@@ -50,4 +51,11 @@ public class Transfer {
         this.destinationAccount = destinationAccount;
     }
 
+    public String getCausal() {
+        return causal;
+    }
+
+    public void setCausal(String causal) {
+        this.causal = causal;
+    }
 }
