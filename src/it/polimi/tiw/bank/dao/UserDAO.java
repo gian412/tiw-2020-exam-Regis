@@ -41,7 +41,7 @@ public class UserDAO {
 
     }
 
-    public Account findAccountByAccountId( int accountId) throws SQLException {
+    public Account findAccountByAccountId(int accountId) throws SQLException {
 
         String query = "SELECT * FROM account WHERE id = ? AND owner = ?";
 

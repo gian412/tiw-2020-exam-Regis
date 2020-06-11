@@ -1,6 +1,7 @@
 package it.polimi.tiw.bank.dao;
 
 import it.polimi.tiw.bank.beans.Transfer;
+import it.polimi.tiw.bank.beans.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +20,7 @@ public class AccountDAO {
         this.id = id;
     }
 
-    public List<Transfer> findOutgoingTransfer () throws SQLException {
+    public List<Transfer> findOutgoingTransfer() throws SQLException {
 
         String query = "SELECT * FROM transfer WHERE origin = ? ORDER BY date DESC";
         List<Transfer> transfers = new ArrayList<>();
@@ -43,7 +44,7 @@ public class AccountDAO {
 
     }
 
-    public List<Transfer> findIncomingTransfer () throws SQLException {
+    public List<Transfer> findIncomingTransfer() throws SQLException {
 
         String query = "SELECT * FROM transfer WHERE destination = ? ORDER BY date DESC";
         List<Transfer> transfers = new ArrayList<>();
@@ -66,4 +67,6 @@ public class AccountDAO {
         return transfers;
 
     }
+
+
 }
