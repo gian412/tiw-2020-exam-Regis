@@ -1,7 +1,9 @@
 package it.polimi.tiw.bank.controllers;
 
 import it.polimi.tiw.bank.beans.Account;
+import it.polimi.tiw.bank.beans.Transfer;
 import it.polimi.tiw.bank.beans.User;
+import it.polimi.tiw.bank.dao.AccountDAO;
 import it.polimi.tiw.bank.dao.UserDAO;
 import it.polimi.tiw.bank.utils.ClientHandler;
 import it.polimi.tiw.bank.utils.MultiPathMessageResolver;
@@ -17,7 +19,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.xpath.XPath;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -87,7 +88,7 @@ public class GoToAccountStatus extends HttpServlet {
         }
 
         // Get user from the session
-        User user = new User();
+        User user;
         HttpSession httpSession = req.getSession();
         user = (User) httpSession.getAttribute("user");
 
@@ -115,7 +116,28 @@ public class GoToAccountStatus extends HttpServlet {
             return;
         }
 
+        AccountDAO accountDAO = new AccountDAO(connection, account.getId());
+        List<Transfer> outgoingTransfers, incomingTransfers;
+        try {
+            outgoingTransfers = accountDAO.findOutgoingTransfer();
+            incomingTransfers = accountDAO.findIncomingTransfer();
+        } catch (SQLException e) {
+            e.printStackTrace(); // TODO: remove after test
+            ServletContext servletContext = getServletContext();
+            final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+            ctx.setVariable("errorMessage", "Unable to retrieve transfers from DB");
+            String path = "/home.html";
+            templateEngine.process(path, ctx, resp.getWriter());
+            return;
+        }
 
+        String path = "/WEB-INF/accountStatus.html";
+        ServletContext servletContext = getServletContext();
+        final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+        ctx.setVariable("account", account);
+        ctx.setVariable("outgoingTransfers", outgoingTransfers);
+        ctx.setVariable("incomingTransfers", incomingTransfers);
+        templateEngine.process(path, ctx, resp.getWriter());
 
     }
 
