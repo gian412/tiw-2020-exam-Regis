@@ -36,7 +36,6 @@
                 <tr>
                     <td th:text="${account.id}">1111</td> <!-- TODO: format number -->
                     <td th:text="${account.balance}">1000 €</td> <!-- TODO: format number and add € -->
-                    <td><a th:href="@{AccountStatus(id=${account.id})}" th:text="$#{accountStatus}">Account status</a></td>
                 </tr>
                 </tbody>
             </table>
