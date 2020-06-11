@@ -46,17 +46,29 @@ public class GoToAccountStatus extends HttpServlet {
 
         String id;
         int accountId;
+
+        // Get account ID from the request
         try {
             id = req.getParameter("id");
         } catch (NullPointerException e) {
             e.printStackTrace(); // TODO: remove after test
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
-            ctx.setVariable("errorMessage", "Unable to retrieve account status from DB");
+            ctx.setVariable("errorMessage", "Missing account ID parameter");
             String path = "/accountStatus.html";
             templateEngine.process(path, ctx, resp.getWriter());
             return;
         }
+
+        if (id==null || id.equals("")) {
+            ServletContext servletContext = getServletContext();
+            final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+            ctx.setVariable("errorMessage", "Account id can't be empty");
+            String path = "/accountStatus.html";
+            templateEngine.process(path, ctx, resp.getWriter());
+            return;
+        }
+
 
     }
 
