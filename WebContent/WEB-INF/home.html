@@ -17,7 +17,7 @@
 
         <div class="main">
 
-            <h1 th:text="#{title}">Home page</h1>
+            <h1 th:text="#{title} + user +  ${accounts.get(1).owner}">Home page</h1>
 
             <!-- If there is any account, show it -->
             <table th:if="${not #lists.isEmpty(accounts)}">
@@ -37,7 +37,7 @@
             </table>
 
             <!-- If there isn't any account, show message -->
-            <p th:text="#{noAccount}">No account yet</p>
+            <p th:text="#{noAccount}" th:if="${#lists.isEmpty(accounts)}">No account yet</p>
 
         </div>
     </body>
