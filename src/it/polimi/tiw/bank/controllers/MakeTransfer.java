@@ -275,7 +275,7 @@ public class MakeTransfer extends HttpServlet {
             // Redirect to transferError.html with error message
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
-            ctx.setVariable("originOwnershipError", "Destination user isn't destination account owner");
+            ctx.setVariable("originOwnershipError", "You are not origin account owner");
             String path = "/transferError.html";
             templateEngine.process(path, ctx, resp.getWriter());
             return;
@@ -286,7 +286,7 @@ public class MakeTransfer extends HttpServlet {
             // Redirect to transferError.html with error message
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
-            ctx.setVariable("fundsError", "Destination account hasn't enough founds");
+            ctx.setVariable("fundsError", "Origin account hasn't enough founds");
             String path = "/transferError.html";
             templateEngine.process(path, ctx, resp.getWriter());
             return;

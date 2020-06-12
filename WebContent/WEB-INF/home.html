@@ -17,7 +17,7 @@
 
         <div class="main">
 
-            <h1 th:text="#{title} + user +  ${accounts.get(1).owner}">Home page</h1>
+            <h1 th:text="#{title} +  ${accounts.get(1).owner}">Homepage User 0001</h1>
 
             <!-- If there is any account, show it -->
             <table th:if="${not #lists.isEmpty(accounts)}">
@@ -31,7 +31,7 @@
                     <tr th:each="account : ${accounts}">
                         <td th:text="${account.id}">1111</td> <!-- TODO: format number -->
                         <td th:text="${account.balance}">1000 €</td> <!-- TODO: format number and add € -->
-                        <td><a th:href="@{AccountStatus(id=${account.id})}" th:text="$#{accountStatus}">Account status</a></td>
+                        <td><a th:href="@{AccountStatus(id=${account.id})}" th:text="#{accountStatus}">Account status</a></td>
                     </tr>
                 </tbody>
             </table>
