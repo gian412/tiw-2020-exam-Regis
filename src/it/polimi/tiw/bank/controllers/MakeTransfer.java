@@ -84,7 +84,7 @@ public class MakeTransfer extends HttpServlet {
                 // Redirect to transferError.html with error message
                 ServletContext servletContext = getServletContext();
                 final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
-                ctx.setVariable("errorMessage", "Origin Account ID must be an integer");
+                ctx.setVariable("originParseError", "Origin Account ID must be an integer");
                 String path = "/transferError.html";
                 templateEngine.process(path, ctx, resp.getWriter());
                 return;
@@ -93,7 +93,7 @@ public class MakeTransfer extends HttpServlet {
             // Redirect to transferError.html with error message
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
-            ctx.setVariable("errorMessage", "Origin Account ID can't be empty");
+            ctx.setVariable("originEmptyError", "Origin Account ID can't be empty");
             String path = "/transferError.html";
             templateEngine.process(path, ctx, resp.getWriter());
             return;
@@ -180,6 +180,20 @@ public class MakeTransfer extends HttpServlet {
             return;
         }
 
+        if (causal.length()>1024) {
+            // Redirect to accountStatus.html with error message
+            ServletContext servletContext = getServletContext();
+            final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+            ctx.setVariable("originAccount", originAccountId);
+            ctx.setVariable("userId", destinationUserId);
+            ctx.setVariable("destinationAccount", destinationAccountId);
+            ctx.setVariable("causalErrorMessage", "Causal can't longer than 1024 characters");
+            ctx.setVariable("amount", amountString);
+            String path = "/accountStatus.html";
+            templateEngine.process(path, ctx, resp.getWriter());
+            return;
+        }
+
         // Check amount and parseDouble
         if (amountString!=null && !amountString.equals("")) {
             try {
@@ -234,7 +248,7 @@ public class MakeTransfer extends HttpServlet {
             // Redirect to transferError.html with error message
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
-            ctx.setVariable("DestinationOwnershipError", "Destination user isn't destination account owner");
+            ctx.setVariable("destinationOwnershipError", "Destination user isn't destination account owner");
             String path = "/transferError.html";
             templateEngine.process(path, ctx, resp.getWriter());
             return;
@@ -261,7 +275,7 @@ public class MakeTransfer extends HttpServlet {
             // Redirect to transferError.html with error message
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
-            ctx.setVariable("OriginOwnershipError", "Destination user isn't destination account owner");
+            ctx.setVariable("originOwnershipError", "Destination user isn't destination account owner");
             String path = "/transferError.html";
             templateEngine.process(path, ctx, resp.getWriter());
             return;
@@ -272,7 +286,7 @@ public class MakeTransfer extends HttpServlet {
             // Redirect to transferError.html with error message
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
-            ctx.setVariable("FundsError", "Destination account hasn't enough founds");
+            ctx.setVariable("fundsError", "Destination account hasn't enough founds");
             String path = "/transferError.html";
             templateEngine.process(path, ctx, resp.getWriter());
             return;
