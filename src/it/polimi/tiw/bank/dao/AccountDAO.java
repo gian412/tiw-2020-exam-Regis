@@ -68,5 +68,14 @@ public class AccountDAO {
 
     }
 
+    public void updateBalance(long balance) throws SQLException {
 
+        String query = "UPDATE account SET balance = ? WHERE id = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, balance);
+            preparedStatement.setInt(2, this.id);
+        }
+
+    }
 }

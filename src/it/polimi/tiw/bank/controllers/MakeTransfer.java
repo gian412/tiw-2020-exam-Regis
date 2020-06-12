@@ -2,6 +2,7 @@ package it.polimi.tiw.bank.controllers;
 
 import it.polimi.tiw.bank.beans.Account;
 import it.polimi.tiw.bank.beans.User;
+import it.polimi.tiw.bank.dao.TransferDAO;
 import it.polimi.tiw.bank.dao.UserDAO;
 import it.polimi.tiw.bank.utils.ClientHandler;
 import it.polimi.tiw.bank.utils.MultiPathMessageResolver;
@@ -213,10 +214,10 @@ public class MakeTransfer extends HttpServlet {
         }
 
         // Check that destination account's owner is destination user
-        UserDAO userDAO = new UserDAO(connection, destinationUserId);
+        UserDAO destinationUserDAO = new UserDAO(connection, destinationUserId);
         Account destinationAccount;
         try {
-            destinationAccount = userDAO.findAccountByAccountId(destinationAccountId);
+            destinationAccount = destinationUserDAO.findAccountByAccountId(destinationAccountId);
         } catch (SQLException e) {
             e.printStackTrace(); // TODO: remove after test
 
@@ -240,9 +241,10 @@ public class MakeTransfer extends HttpServlet {
         }
 
         // Check that session user is origin account's owner
+        UserDAO originUserDAO = new UserDAO(connection, user.getId());
         Account originAccount;
         try {
-            originAccount = userDAO.findAccountByAccountId(originAccountId);
+            originAccount = originUserDAO.findAccountByAccountId(originAccountId);
         } catch (SQLException e) {
             e.printStackTrace(); // TODO: remove after test
 
@@ -276,8 +278,56 @@ public class MakeTransfer extends HttpServlet {
             return;
         }
 
+        // Create transaction and update accounts
+        TransferDAO transferDAO = new TransferDAO(connection);
+        try {
+            transferDAO.createTransfer(amount, originAccount.getId(), destinationAccount.getId(), causal, originAccount.getBalance(), destinationAccount.getBalance());
+        } catch (SQLException e) {
+            e.printStackTrace(); // TODO: remove after test
 
+            // Redirect to transferError.html with error message
+            ServletContext servletContext = getServletContext();
+            final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+            ctx.setVariable("transferError", "Unable to make the transfer");
+            String path = "/transferError.html";
+            templateEngine.process(path, ctx, resp.getWriter());
+            return;
+        }
 
+        // Get the updated accounts
+        try {
+            originAccount = originUserDAO.findAccountByAccountId(originAccount.getId());
+            destinationAccount = destinationUserDAO.findAccountByAccountId(destinationAccount.getId());
+        } catch (SQLException e) {
+            e.printStackTrace(); // TODO: remove after test
+
+            // Redirect to transferSuccessful.html with error message
+            ServletContext servletContext = getServletContext();
+            final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+            ctx.setVariable("accountError", "Unable to retrieve accounts");
+            String path = "/transferSuccessful.html";
+            templateEngine.process(path, ctx, resp.getWriter());
+            return;
+        }
+
+        if (originAccount==null || destinationAccount==null) {
+            // Redirect to transferSuccessful.html with error message
+            ServletContext servletContext = getServletContext();
+            final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+            ctx.setVariable("accountError", "Unable to retrieve accounts");
+            String path = "/transferSuccessful.html";
+            templateEngine.process(path, ctx, resp.getWriter());
+            return;
+        }
+
+        // Redirect to transferSuccessful.html with error message
+        ServletContext servletContext = getServletContext();
+        final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+        ctx.setVariable("originAccount", originAccount);
+        ctx.setVariable("destinationAccount", destinationAccount);
+        String path = "/transferSuccessful.html";
+        templateEngine.process(path, ctx, resp.getWriter());
+        return;
 
 
     }
