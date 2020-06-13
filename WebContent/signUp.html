@@ -32,6 +32,7 @@
         <label for="email" th:placeholder="#{email}">Email:</label>
         <input type="email" id="email" name="email" placeholder="Enter your email" th:placeholder="#{phEmail}" th:class="${emErrorMessage} ? 'error-input' " required><br>
         <p th:text="${emErrorMessage}" class="error">Email error</p><br th:if="${emErrorMessage!=null}">
+        <p th:text="${emRegexError}" class="error">Email error</p><br th:if="${emRegexError!=null}">
 
         <!-- Password -->
         <label for="password" th:text="#{password}">Password:</label>

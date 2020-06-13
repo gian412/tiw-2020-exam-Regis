@@ -3,6 +3,7 @@ package it.polimi.tiw.bank.controllers;
 import it.polimi.tiw.bank.beans.User;
 import it.polimi.tiw.bank.dao.AnonymousUserDAO;
 import it.polimi.tiw.bank.utils.ClientHandler;
+import it.polimi.tiw.bank.utils.Email;
 import it.polimi.tiw.bank.utils.Encryption;
 import it.polimi.tiw.bank.utils.MultiPathMessageResolver;
 import org.thymeleaf.TemplateEngine;
@@ -119,6 +120,8 @@ public class CreateUser extends HttpServlet {
 
             if (em) {
                 ctx.setVariable("emErrorMessage", "Email can't be empty");
+            } else if (Email.isValid(email)) {
+                ctx.setVariable("emRegexError", "Email not valid");
             } else {
                 ctx.setVariable("email", email);
             }
