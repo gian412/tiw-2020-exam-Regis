@@ -33,4 +33,18 @@
         <welcome-file>Welcome</welcome-file>
     </welcome-file-list>
 
+    <!-- Filters declaration -->
+    <filter>
+        <filter-name>CheckLogin</filter-name>
+        <filter-class>it.polimi.tiw.bank.filters.CheckLogin</filter-class>
+    </filter>
+
+    <!-- Filters mapping -->
+    <filter-mapping>
+        <filter-name>CheckLogin</filter-name>
+        <url-pattern>/Home</url-pattern>
+        <url-pattern>/AccountStatus</url-pattern>
+        <url-pattern>/MakeTransfer</url-pattern>
+    </filter-mapping>
+
 </web-app>
