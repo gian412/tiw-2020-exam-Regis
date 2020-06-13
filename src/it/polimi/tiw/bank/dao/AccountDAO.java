@@ -32,7 +32,7 @@ public class AccountDAO {
                     Transfer transfer = new Transfer();
                     transfer.setId(resultSet.getInt("id"));
                     transfer.setDate(resultSet.getDate("date"));
-                    transfer.setAmount(resultSet.getLong("amount"));
+                    transfer.setAmount(resultSet.getDouble("amount"));
                     transfer.setOriginAccount(resultSet.getInt("origin"));
                     transfer.setDestinationAccount(resultSet.getInt("destination"));
                     transfer.setCausal(resultSet.getString("causal"));
@@ -56,7 +56,7 @@ public class AccountDAO {
                     Transfer transfer = new Transfer();
                     transfer.setId(resultSet.getInt("id"));
                     transfer.setDate(resultSet.getDate("date"));
-                    transfer.setAmount(resultSet.getLong("amount"));
+                    transfer.setAmount(resultSet.getDouble("amount"));
                     transfer.setOriginAccount(resultSet.getInt("origin"));
                     transfer.setDestinationAccount(resultSet.getInt("destination"));
                     transfer.setCausal(resultSet.getString("causal"));
@@ -68,13 +68,14 @@ public class AccountDAO {
 
     }
 
-    public void updateBalance(long balance) throws SQLException {
+    public void updateBalance(double balance) throws SQLException {
 
         String query = "UPDATE account SET balance = ? WHERE id = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setLong(1, balance);
+            preparedStatement.setDouble(1, balance);
             preparedStatement.setInt(2, this.id);
+            preparedStatement.executeUpdate();
         }
 
     }

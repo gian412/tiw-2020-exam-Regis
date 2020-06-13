@@ -15,7 +15,7 @@ public class TransferDAO {
         this.connection = connection;
     }
 
-    public void createTransfer(long amount, int originId, int destinationId, String causal, long originBalance, long destinationBalance) throws SQLException {
+    public void createTransfer(double amount, int originId, int destinationId, String causal, double originBalance, double destinationBalance) throws SQLException {
 
         AccountDAO originDAO = new AccountDAO(this.connection, originId);
         AccountDAO destinationDAO = new AccountDAO(this.connection, destinationId);
@@ -24,7 +24,7 @@ public class TransferDAO {
 
         connection.setAutoCommit(false);
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setLong(1, amount);
+            preparedStatement.setDouble(1, amount);
             preparedStatement.setInt(2, originId);
             preparedStatement.setInt(3, destinationId);
             preparedStatement.setString(4, causal);

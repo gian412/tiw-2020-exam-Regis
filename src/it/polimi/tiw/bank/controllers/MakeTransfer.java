@@ -25,7 +25,7 @@ import java.sql.SQLException;
 @WebServlet("/MakeTransfer")
 public class MakeTransfer extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
+    private static final double serialVersionUID = 1L;
     private Connection connection;
     private TemplateEngine templateEngine;
 
@@ -55,7 +55,7 @@ public class MakeTransfer extends HttpServlet {
 
         String originAccountIdString, destinationUserIdString, destinationAccountIdString, causal, amountString;
         int originAccountId, destinationUserId, destinationAccountId;
-        long amount;
+        double amount;
 
         // Get transfer's information from the request
         try {
@@ -85,7 +85,7 @@ public class MakeTransfer extends HttpServlet {
                 ServletContext servletContext = getServletContext();
                 final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
                 ctx.setVariable("originParseError", "Origin Account ID must be an integer");
-                String path = "/transferError.html";
+                String path = "/WEB-INF/transferError.html";
                 templateEngine.process(path, ctx, resp.getWriter());
                 return;
             }
@@ -94,7 +94,23 @@ public class MakeTransfer extends HttpServlet {
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
             ctx.setVariable("originEmptyError", "Origin Account ID can't be empty");
-            String path = "/transferError.html";
+            String path = "/WEB-INF/transferError.html";
+            templateEngine.process(path, ctx, resp.getWriter());
+            return;
+        }
+
+        Account account;
+        UserDAO userDAO = new UserDAO(connection, user.getId());
+        try {
+            account = userDAO.findAccountByAccountId(originAccountId);
+        } catch (SQLException e) {
+            e.printStackTrace(); // TODO: remove after test
+
+            // Redirect to transferError.html with error message
+            ServletContext servletContext = getServletContext();
+            final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+            ctx.setVariable("originRetrieveError", "Unable to retrieve origin Account");
+            String path = "/WEB-INF/transferError.html";
             templateEngine.process(path, ctx, resp.getWriter());
             return;
         }
@@ -109,6 +125,7 @@ public class MakeTransfer extends HttpServlet {
                 // Redirect to accountStatus.html with error message
                 ServletContext servletContext = getServletContext();
                 final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+                ctx.setVariable("account", account);
                 ctx.setVariable("originAccount", originAccountId);
                 ctx.setVariable("userIdErrorMessage", "Destination User ID must be an integer");
                 ctx.setVariable("destinationAccount", destinationAccountIdString);
@@ -122,6 +139,7 @@ public class MakeTransfer extends HttpServlet {
             // Redirect to accountStatus.html with error message
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+            ctx.setVariable("account", account);
             ctx.setVariable("originAccount", originAccountId);
             ctx.setVariable("userIdErrorMessage", "Destination User ID can't be empty");
             ctx.setVariable("destinationAccount", destinationAccountIdString);
@@ -142,6 +160,7 @@ public class MakeTransfer extends HttpServlet {
                 // Redirect to accountStatus.html with error message
                 ServletContext servletContext = getServletContext();
                 final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+                ctx.setVariable("account", account);
                 ctx.setVariable("originAccount", originAccountId);
                 ctx.setVariable("userId", destinationUserId);
                 ctx.setVariable("destinationAccountErrorMessage", "Destination Account ID must be an integer");
@@ -155,6 +174,7 @@ public class MakeTransfer extends HttpServlet {
             // Redirect to accountStatus.html with error message
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+            ctx.setVariable("account", account);
             ctx.setVariable("originAccount", originAccountId);
             ctx.setVariable("userId", destinationUserId);
             ctx.setVariable("destinationAccountErrorMessage", "Destination Account ID can't be empty");
@@ -170,6 +190,7 @@ public class MakeTransfer extends HttpServlet {
             // Redirect to accountStatus.html with error message
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+            ctx.setVariable("account", account);
             ctx.setVariable("originAccount", originAccountId);
             ctx.setVariable("userId", destinationUserId);
             ctx.setVariable("destinationAccount", destinationAccountId);
@@ -184,10 +205,11 @@ public class MakeTransfer extends HttpServlet {
             // Redirect to accountStatus.html with error message
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+            ctx.setVariable("account", account);
             ctx.setVariable("originAccount", originAccountId);
             ctx.setVariable("userId", destinationUserId);
             ctx.setVariable("destinationAccount", destinationAccountId);
-            ctx.setVariable("causalErrorMessage", "Causal can't longer than 1024 characters");
+            ctx.setVariable("causalErrorMessage", "Causal can't doubleer than 1024 characters");
             ctx.setVariable("amount", amountString);
             String path = "/accountStatus.html";
             templateEngine.process(path, ctx, resp.getWriter());
@@ -197,19 +219,20 @@ public class MakeTransfer extends HttpServlet {
         // Check amount and parseDouble
         if (amountString!=null && !amountString.equals("")) {
             try {
-                amount = Long.parseLong(amountString);
+                amount = Double.parseDouble(amountString);
             } catch (NumberFormatException e) {
                 e.printStackTrace(); // TODO: remove after test
 
                 // Redirect to accountStatus.html with error message
                 ServletContext servletContext = getServletContext();
                 final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+                ctx.setVariable("account", account);
                 ctx.setVariable("originAccount", originAccountId);
                 ctx.setVariable("userId", destinationUserId);
                 ctx.setVariable("destinationAccount", destinationAccountId);
                 ctx.setVariable("causal", causal);
-                ctx.setVariable("amountErrorMessage", "Amount must be a long");
-                String path = "/accountStatus.html";
+                ctx.setVariable("amountErrorMessage", "Amount must be a double");
+                String path = "/WEB-INF/accountStatus.html";
                 templateEngine.process(path, ctx, resp.getWriter());
                 return;
             }
@@ -217,11 +240,27 @@ public class MakeTransfer extends HttpServlet {
             // Redirect to accountStatus.html with error message
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+            ctx.setVariable("account", account);
             ctx.setVariable("originAccount", originAccountId);
             ctx.setVariable("userId", destinationUserId);
             ctx.setVariable("destinationAccount", destinationAccountId);
             ctx.setVariable("causal", causal);
             ctx.setVariable("amountErrorMessage", "Amount can't be empty");
+            String path = "/accountStatus.html";
+            templateEngine.process(path, ctx, resp.getWriter());
+            return;
+        }
+
+        if (amount<=0) {
+            // Redirect to accountStatus.html with error message
+            ServletContext servletContext = getServletContext();
+            final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+            ctx.setVariable("account", account);
+            ctx.setVariable("originAccount", originAccountId);
+            ctx.setVariable("userId", destinationUserId);
+            ctx.setVariable("destinationAccount", destinationAccountId);
+            ctx.setVariable("causal", causal);
+            ctx.setVariable("amountErrorMessage", "Amount must be greater than 0");
             String path = "/accountStatus.html";
             templateEngine.process(path, ctx, resp.getWriter());
             return;
@@ -239,7 +278,7 @@ public class MakeTransfer extends HttpServlet {
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
             ctx.setVariable("accountRetrieveError", "Unable to retrieve account from DB");
-            String path = "/transferError.html";
+            String path = "/WEB-INF/transferError.html";
             templateEngine.process(path, ctx, resp.getWriter());
             return;
         }
@@ -249,7 +288,7 @@ public class MakeTransfer extends HttpServlet {
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
             ctx.setVariable("destinationOwnershipError", "Destination user isn't destination account owner");
-            String path = "/transferError.html";
+            String path = "/WEB-INF/transferError.html";
             templateEngine.process(path, ctx, resp.getWriter());
             return;
         }
@@ -266,7 +305,7 @@ public class MakeTransfer extends HttpServlet {
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
             ctx.setVariable("accountRetrieveError", "Unable to retrieve account from DB");
-            String path = "/transferError.html";
+            String path = "/WEB-INF/transferError.html";
             templateEngine.process(path, ctx, resp.getWriter());
             return;
         }
@@ -276,7 +315,7 @@ public class MakeTransfer extends HttpServlet {
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
             ctx.setVariable("originOwnershipError", "You are not origin account owner");
-            String path = "/transferError.html";
+            String path = "/WEB-INF/transferError.html";
             templateEngine.process(path, ctx, resp.getWriter());
             return;
         }
@@ -287,7 +326,7 @@ public class MakeTransfer extends HttpServlet {
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
             ctx.setVariable("fundsError", "Origin account hasn't enough founds");
-            String path = "/transferError.html";
+            String path = "/WEB-INF/transferError.html";
             templateEngine.process(path, ctx, resp.getWriter());
             return;
         }
@@ -303,7 +342,7 @@ public class MakeTransfer extends HttpServlet {
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
             ctx.setVariable("transferError", "Unable to make the transfer");
-            String path = "/transferError.html";
+            String path = "/WEB-INF/transferError.html";
             templateEngine.process(path, ctx, resp.getWriter());
             return;
         }
@@ -319,7 +358,7 @@ public class MakeTransfer extends HttpServlet {
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
             ctx.setVariable("accountError", "Unable to retrieve accounts");
-            String path = "/transferSuccessful.html";
+            String path = "/WEB-INF/transferSuccessful.html";
             templateEngine.process(path, ctx, resp.getWriter());
             return;
         }
@@ -329,7 +368,7 @@ public class MakeTransfer extends HttpServlet {
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
             ctx.setVariable("accountError", "Unable to retrieve accounts");
-            String path = "/transferSuccessful.html";
+            String path = "/WEB-INF/transferSuccessful.html";
             templateEngine.process(path, ctx, resp.getWriter());
             return;
         }
@@ -339,10 +378,8 @@ public class MakeTransfer extends HttpServlet {
         final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
         ctx.setVariable("originAccount", originAccount);
         ctx.setVariable("destinationAccount", destinationAccount);
-        String path = "/transferSuccessful.html";
+        String path = "/WEB-INF/transferSuccessful.html";
         templateEngine.process(path, ctx, resp.getWriter());
-        return;
-
 
     }
 

@@ -22,7 +22,7 @@ public class UserDAO {
 
     public List<Account> findAccountsByUserId() throws SQLException {
 
-        String query = "SELECT * FROM account WHERE id = ?";
+        String query = "SELECT * FROM account WHERE owner = ?";
         List<Account> accounts = new ArrayList<>();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -31,7 +31,7 @@ public class UserDAO {
                 while (resultSet.next()) {
                     Account account = new Account();
                     account.setId(resultSet.getInt("id"));
-                    account.setBalance(resultSet.getLong("balance"));
+                    account.setBalance(resultSet.getDouble("balance"));
                     account.setOwner(resultSet.getInt("owner"));
                     accounts.add(account);
                 }
@@ -55,7 +55,7 @@ public class UserDAO {
                 resultSet.next();
                 Account account = new Account();
                 account.setId(resultSet.getInt("id"));
-                account.setBalance(resultSet.getLong("balance"));
+                account.setBalance(resultSet.getDouble("balance"));
                 account.setOwner(resultSet.getInt("owner"));
                 return account;
             }

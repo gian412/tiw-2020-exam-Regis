@@ -20,7 +20,7 @@ import java.io.IOException;
 @WebServlet("/Welcome")
 public class GoToWelcome extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
+    private static final double serialVersionUID = 1L;
     private TemplateEngine templateEngine;
 
     public GoToWelcome() {

@@ -25,7 +25,7 @@ import java.util.List;
 @WebServlet("/Home")
 public class GoToHome extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
+    private static final double serialVersionUID = 1L;
     private Connection connection;
     private TemplateEngine templateEngine;
 
@@ -71,6 +71,7 @@ public class GoToHome extends HttpServlet {
         String path = "/WEB-INF/home.html";
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+        ctx.setVariable("userId", user.getId());
         ctx.setVariable("accounts", accounts);
         templateEngine.process(path, ctx, resp.getWriter());
 

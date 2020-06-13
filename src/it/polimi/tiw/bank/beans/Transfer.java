@@ -6,7 +6,7 @@ public class Transfer {
 
     private int id;
     private Date date;
-    private long amount;
+    private double amount;
     private int originAccount;
     private int destinationAccount;
     private String causal;
@@ -27,11 +27,11 @@ public class Transfer {
         this.date = date;
     }
 
-    public long getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(long amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

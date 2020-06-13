@@ -3,7 +3,7 @@ package it.polimi.tiw.bank.beans;
 public class Account {
 
     private int id;
-    private long balance;
+    private double balance;
     private int owner;
 
     public int getId() {
@@ -14,11 +14,11 @@ public class Account {
         this.id = id;
     }
 
-    public long getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(long balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 

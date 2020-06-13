@@ -54,6 +54,7 @@ div {
     top : 0;
     width : 100%;
     padding: 0;
+    text-align: right;
 }
 
 /* Stile for the form in the top menu */

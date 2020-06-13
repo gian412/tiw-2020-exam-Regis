@@ -15,7 +15,7 @@ import java.io.IOException;
 @WebServlet("/resources/*")
 public class GetResources extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
+    private static final double serialVersionUID = 1L;
 
     public GetResources() {
         super();
