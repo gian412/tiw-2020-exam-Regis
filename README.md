@@ -2,10 +2,6 @@
 
 ### Project for Web Technologies course's exam
 
-
-
-
-
 ## Structural Design
 
 ---
@@ -89,5 +85,3 @@ CREATE TABLE `money_transfer`.`transfer` (
   - UserDAO
   
   - AccountDAO
-  
-  - TransferDAO
