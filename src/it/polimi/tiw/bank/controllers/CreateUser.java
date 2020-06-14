@@ -120,7 +120,7 @@ public class CreateUser extends HttpServlet {
 
             if (em) {
                 ctx.setVariable("emErrorMessage", "Email can't be empty");
-            } else if (Email.isValid(email)) {
+            } else if (!Email.isValid(email)) {
                 ctx.setVariable("emRegexError", "Email not valid");
             } else {
                 ctx.setVariable("email", email);
