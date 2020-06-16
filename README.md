@@ -1,76 +1,79 @@
-# tiw-2020-exam-Regis
+# Structural Design
 
-### Project for Web Technologies course's exam
+***
 
-## Structural Design
-
----
-
-### Data Structure
+## Data Structure
 
 ##### Schema creation:
 
 ```sql
-CREATE SCHEMA `money_transfer` ;
+CREATE SCHEMA `money_transfer`;
 ```
 
 ##### Users table creation:
 
 ```sql
-CREATE TABLE `money_transfer`.`user` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `firstname` VARCHAR(45) NOT NULL,
-  `lastname` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`));
+CREATE TABLE `user` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `firstname` varchar(45) NOT NULL,
+  `lastname` varchar(45) NOT NULL,
+  `username` varchar(64) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `password` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+);
 ```
 
 ##### Accounts table creation:
 
 ```sql
-CREATE TABLE `money_transfer`.`account` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `balance` INT NOT NULL DEFAULT 0,
-  `owner` INT NOT NULL,
+CREATE TABLE `account` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `balance` decimal(9,2) unsigned NOT NULL DEFAULT ''0.00'',
+  `owner` int NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `ownership_idx` (`owner` ASC) VISIBLE,
-  CONSTRAINT `ownership`
-    FOREIGN KEY (`owner`)
-    REFERENCES `money_transfer`.`user` (`id`)
+  KEY `ownership_idx` (`owner`),
+  CONSTRAINT `ownership` 
+    FOREIGN KEY (`owner`) 
+    REFERENCES `user` (`id`) 
     ON DELETE CASCADE
-    ON UPDATE NO ACTION);
+    ON UPDATE NO ACTION
+);
 ```
 
 ##### Transfers table creation:
 
 ```sql
-CREATE TABLE `money_transfer`.`transfer` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `amount` INT NOT NULL,
-  `origin` INT NOT NULL,
-  `destination` INT NOT NULL,
+CREATE TABLE `transfer` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `amount` decimal(9,2) unsigned NOT NULL,
+  `origin` int NOT NULL,
+  `destination` int NOT NULL,
+  `causal` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `origin_of_transfer_idx` (`origin` ASC) VISIBLE,
-  INDEX `destination_of_transfer_idx` (`destination` ASC) VISIBLE,
-  CONSTRAINT `origin_of_transfer`
-    FOREIGN KEY (`origin`)
-    REFERENCES `money_transfer`.`account` (`id`)
+  KEY `origin_of_transfer_idx` (`origin`),
+  KEY `destination_of_transfer_idx` (`destination`),
+  CONSTRAINT `destination_of_transfer` 
+    FOREIGN KEY (`destination`) 
+    REFERENCES `account` (`id`) 
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
-  CONSTRAINT `destination_of_transfer`
-    FOREIGN KEY (`destination`)
-    REFERENCES `money_transfer`.`account` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION);
+  CONSTRAINT `origin_of_transfer` 
+   FOREIGN KEY (`origin`) 
+   REFERENCES `account` (`id`) 
+   ON DELETE CASCADE
+   ON UPDATE NO ACTION
+);
 ```
 
----
+***
 
----
+***
 
 ## Components
 
-- ##### Model Objects (Bean)
+- ##### Model Objects (Beans)
   
   - User
   
@@ -78,10 +81,50 @@ CREATE TABLE `money_transfer`.`transfer` (
   
   - Transfer
 
-- ##### Data Access Object (DAO)
+- ##### Data Access Objects (Classes)
   
   - AnonymousUserDAO
   
   - UserDAO
   
   - AccountDAO
+  
+  - TransferDAO
+
+- ##### Controllers (Servlet)
+  
+  - GoToWelcome
+  
+  - GetResources
+  
+  - CheckLogin
+  
+  - CreateUser
+  
+  - GoToLogin
+  
+  - GoToSignUp
+  
+  - GoToHome
+  
+  - GoToAccountStatus
+  
+  - MakeTransfer
+  
+  - Logout
+
+- Views (Templates) & component
+  
+  - welcome
+  
+  - login
+  
+  - signUp
+  
+  - home
+  
+  - accountStatus
+  
+  - transferError
+  
+  - transferSuccessful
