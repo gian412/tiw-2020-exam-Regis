@@ -29,7 +29,7 @@ CREATE TABLE `user` (
 ```sql
 CREATE TABLE `account` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `balance` decimal(9,2) unsigned NOT NULL DEFAULT ''0.00'',
+  `balance` decimal(9,2) unsigned NOT NULL DEFAULT '0.00',
   `owner` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `ownership_idx` (`owner`),
